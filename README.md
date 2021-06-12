@@ -5,7 +5,7 @@
 This is a game on HTML5 Canvas inspired by an example in
 [graphics programming book](
 https://github.com/doxas/graphics-programming-book/) (in Japanese), but
-contains several enhancementns for personal practice.
+contains several enhancements for personal practice.
 
 This is written in:
 
