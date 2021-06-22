@@ -4,21 +4,18 @@
 
 This is a game on HTML5 Canvas inspired by an example in
 [graphics programming book](
-https://github.com/doxas/graphics-programming-book/) (in Japanese), but
-contains several enhancements for personal practice.
+https://github.com/doxas/graphics-programming-book/), but contains several
+enhancements as personal practice, and written in TypeScript.
 
-This is written in:
-
-* TypeScript
-* Rust (not yet)
+You can play this at: https://miaow.yasha.rs
 
 
-## Play
+## How to play
 
 | Key | Action |
 |---|---|
 | Arrow, Up, Down | Move |
-| Shift |Shot|
+| Shift | Shot |
 
 
 ## Build
