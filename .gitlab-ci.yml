@@ -1,0 +1,61 @@
+stages:
+  - setup
+  - vet
+  - test
+  - build
+  - pages
+
+image: node:12.22.1
+
+cache:
+  untracked: true
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - node_modules
+
+before_script:
+  - node --version
+  - npm --version
+
+setup:
+  stage: setup
+  script:
+    - make setup
+
+check:
+  stage: vet
+  script:
+    - make vet:check
+
+lint:
+  stage: vet
+  script:
+    - make vet:lint
+
+test:
+  stage: test
+  script:
+    - make test
+
+debug:
+  stage: build
+  script:
+    - make build:debug
+
+release:
+  stage: build
+  script:
+    - make build:release
+
+pages:
+  stage: pages
+  script:
+    - make build:release
+    - mkdir public
+    - cp -R dst/* public/
+  artifacts:
+    untracked: true
+    paths:
+      - public

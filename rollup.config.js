@@ -133,9 +133,9 @@ const production = {
 };
 
 export default (args) => {
-  if (args.configBuildDevelopment === true) {
+  if (args.configBuildDebug === true) {
     return development;
-  } else if (args.configBuildProduction === true) {
+  } else if (args.configBuildRelease === true) {
     return production;
   }
   throw new Error("unknown args given :'(");

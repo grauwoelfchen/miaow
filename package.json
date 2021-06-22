@@ -10,8 +10,8 @@
     "node": "12.x"
   },
   "scripts": {
-    "build:production": "rollup -c --configBuildProduction",
-    "build:development": "rollup -c --configBuildDevelopment",
+    "build:debug": "rollup -c --configBuildDebug",
+    "build:release": "rollup -c --configBuildRelease",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "test": "echo \"error: no test specified\" && exit 1",
     "watch:build": "rollup -w -c --configBuildDevelopment",

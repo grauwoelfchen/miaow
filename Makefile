@@ -26,16 +26,22 @@ vet: vet\:all # Alias of vet:all
 .PHONY: vet
 # }}}
 
+# test {{{
+test:
+	@echo "TODO"
+.PHONY: test
+# }}}
+
 # build {{{
-build\:development: # Build in development mode [synonym: build]
-	npm run build:development
-.PHONY: build\:development
+build\:debug: # Build in development mode [synonym: build]
+	npm run build:debug
+.PHONY: build\:debug
 
-build\:production: # Build in production mode
-	npm run build:production
-.PHONY: build\:production
+build\:release: # Build in production mode
+	npm run build:release
+.PHONY: build\:release
 
-build: build\:development
+build: build\:debug
 .PHONY: build
 # }}}
 
