@@ -14,7 +14,7 @@ You can play this at: https://miaow.yasha.rs
 
 | Key | Action |
 |---|---|
-| Arrow, Up, Down | Move |
+| Left, Right, Up or Down | Move |
 | Shift | Shot |
 
 
