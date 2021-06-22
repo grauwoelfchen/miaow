@@ -51,9 +51,10 @@ release:
 
 pages:
   stage: pages
+  before_script:
   script:
     - make build:release
-    - mkdir public
+    - rm -fr public && mkdir -p public
     - cp -R dst/* public/
   artifacts:
     untracked: true
