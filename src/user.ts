@@ -54,6 +54,10 @@ export class User extends Item {
     this.commingEndPosition = new Position(endX, endY);
   }
 
+  public isAllSet(): boolean {
+    return !this.isComming;
+  }
+
   public totalTime(): string {
     return this.time.toFixed(2);
   }
@@ -68,9 +72,9 @@ export class User extends Item {
 
   public activeShotsCount(): string {
     return String(
-      this.hearts.filter((s: Shot) => !s.isDead()).length +
-        this.winks.left.filter((w: Shot) => !w.isDead()).length +
-        this.winks.right.filter((w: Shot) => !w.isDead()).length
+      this.hearts.filter((s: Shot) => !s.isTired()).length +
+        this.winks.left.filter((w: Shot) => !w.isTired()).length +
+        this.winks.right.filter((w: Shot) => !w.isTired()).length
     );
   }
 
@@ -121,7 +125,7 @@ export class User extends Item {
 
       if (window.KeyDown.Shift === true && this.isShooting === false) {
         for (const [i, _h] of this.hearts.entries()) {
-          if (this.hearts[i].isDead()) {
+          if (this.hearts[i].isTired()) {
             this.hearts[i].set(this.position.x, this.position.y);
             this.totalShots += 1;
 
@@ -129,7 +133,7 @@ export class User extends Item {
             if (window.KeyDown.ArrowLeft === true) {
               setTimeout(() => {
                 for (const [j, _l] of this.winks.left.entries()) {
-                  if (this.winks.left[j].isDead()) {
+                  if (this.winks.left[j].isTired()) {
                     const a = 260 * Math.PI / 180;
                     this.winks.left[j].set(this.position.x, this.position.y);
                     this.winks.left[j].setVectorFromAngle(a);
@@ -144,7 +148,7 @@ export class User extends Item {
             if (window.KeyDown.ArrowRight === true) {
               setTimeout(() => {
                 for (const [k, _r] of this.winks.right.entries()) {
-                  if (this.winks.right[k].isDead()) {
+                  if (this.winks.right[k].isTired()) {
                     const a = 280 * Math.PI / 180;
                     this.winks.right[k].set(this.position.x, this.position.y);
                     this.winks.right[k].setVectorFromAngle(a);

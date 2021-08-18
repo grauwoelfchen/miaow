@@ -1,6 +1,8 @@
 import { CanvasUtility } from './canvas';
 import { Shot } from './shot';
 import { User } from './user';
+import { Opponent } from './opponent';
+import { Manager } from './manager';
 
 import './style.styl';
 
@@ -17,10 +19,13 @@ declare global {
   const CANVAS_HEIGHT: number = 480;
 
   const SHOT_MAX: number = 6;
+  const OPPO_MAX: number = 9;
 
   let util: CanvasUtility;
   let canvas: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D;
+
+  let manager: Manager;
 
   let user: User;
 
@@ -30,6 +35,9 @@ declare global {
     left:  []
   , right: []
   };
+
+  // opponents
+  const others: Opponent[] = [];
 
   window.addEventListener('load', () => {
     util = new CanvasUtility(document.querySelector('#canvas'));
@@ -49,6 +57,8 @@ declare global {
     canvas.width = CANVAS_WIDTH;
     canvas.height = CANVAS_HEIGHT;
 
+    manager = new Manager();
+
     const check = document.getElementById('stats_check') as HTMLInputElement;
     if (check != null) {
       check.checked = false;
@@ -65,7 +75,7 @@ declare global {
       }
     }
 
-    user = new User(ctx, 0, 0, 64, 64, './img/user.png');
+    user = new User(ctx, 0, 0, 64, 64, './img/cat.png');
     const x = (CANVAS_WIDTH / 2);
     user.setComming(
       x
@@ -74,6 +84,7 @@ declare global {
     , CANVAS_HEIGHT - 100
     );
 
+    // shots
     for (let i = 0; i < SHOT_MAX; ++i) {
       hearts[i] = new Shot(ctx, 0, 0, 32, 32, './img/heart.png');
       winks.left[i]  = new Shot(ctx, 0, 0, 16, 16, './img/wink.png');
@@ -81,16 +92,21 @@ declare global {
     }
     user.setHearts(hearts);
     user.setWinks(winks);
+
+    // opponents
+    for (let j = 0; j < OPPO_MAX; ++j) {
+      others[j] = new Opponent(ctx, 0, 0, 48, 48, './img/other.png');
+    }
   }
 
   function loaded() {
     let ready = true;
     ready = ready && user.isReady();
 
+    // shots
     hearts.map((h) => {
       ready = ready && h.isReady();
     });
-
     winks.left.map((w) => {
       ready = ready && w.isReady();
     });
@@ -98,21 +114,55 @@ declare global {
       ready = ready && w.isReady();
     });
 
+    // opponents
+    others.map((o) => {
+      ready = ready && o.isReady();
+    });
+
     if (ready === true) {
-      eventSetting();
+      configureEvents();
+      configureScenes();
       render();
     } else {
       setTimeout(loaded, 100);
     }
   }
 
-  function eventSetting() {
+  function configureEvents() {
     window.addEventListener('keydown', (e) => {
       window.KeyDown[e.key] = true;
     }, false);
     window.addEventListener('keyup', (e) => {
       window.KeyDown[e.key] = false;
     }, false);
+  }
+
+  function configureScenes() {
+    manager.registerScene('start', (_: number) => {
+      if (user.isAllSet()) {
+        manager.switchScene('stroll');
+      }
+    });
+    manager.registerScene('stroll', (_: number) => {
+      if (manager.frame === 0) {
+        for (let i = 0; i < OPPO_MAX; ++i) {
+          // encounter
+          if (others[i].isCharmed()) {
+            const c = others[i];
+            const h = c.getHeight();
+
+            // TODO
+            c.set(CANVAS_WIDTH / 2, -h, 1);
+            c.setVector(0.0, 1.0);
+
+            break;
+          }
+        }
+      } else if (manager.frame >= 128) {
+        manager.switchScene('stroll');
+      }
+    });
+    manager.switchScene('start');
   }
 
   function render() {
@@ -131,6 +181,17 @@ declare global {
     winks.right.map((w) => {
       w.update();
     });
+
+    others.map((c) => {
+      c.update();
+    });
+
+    manager.update();
+
+    const s = document.getElementById('scene');
+    if (s != null) {
+      s.innerText = manager.getCurrentSceneName();
+    }
 
     const t = document.getElementById('time');
     if (t != null) {

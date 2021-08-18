@@ -1,6 +1,6 @@
 # Miaow
 
-![Logo](dst/img/user.png?raw=true "Miaow")
+![Logo](dst/img/cat.png?raw=true "Miaow")
 
 This is a game on HTML5 Canvas inspired by an example in
 [graphics programming book](

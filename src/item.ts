@@ -52,7 +52,12 @@ export abstract class Item {
     return this.ready;
   }
 
-  public isDead(): boolean {
+  public isTired(): boolean {
+    return this.life <= 0;
+  }
+
+  // as a friend ;)
+  public isCharmed(): boolean {
     return this.life <= 0;
   }
 
@@ -66,6 +71,10 @@ export abstract class Item {
 
   public setVector(x: number, y: number): void {
     this.vector.set(x, y);
+  }
+
+  public getHeight(): number {
+    return this.height;
   }
 
   protected rotationDraw(): void {
