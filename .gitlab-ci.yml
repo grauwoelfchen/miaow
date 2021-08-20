@@ -56,7 +56,9 @@ pages:
     - make build:release
     - rm -fr public && mkdir -p public
     - cp -R dst/* public/
-    - sed 's/\.js/\.min\0/' -i public/index.html
+    - hash=$(md5sum public/js/script.min.js | cut -d ' ' -f 1)
+    - mv public/js/script.min{,.$hash}.js
+    - sed "s/\.js/\.min\.${hash}\0/" -i public/index.html
   artifacts:
     untracked: true
     paths:

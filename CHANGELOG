@@ -1,4 +1,5 @@
 Sat 21 Aug 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Add hash value only for release build (as script.min.HASH.js)
 	* Add keybind instructions
 	* Fix release build
 	* Fix uninitialized private variables for Scene
