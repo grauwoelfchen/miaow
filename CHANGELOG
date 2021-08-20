@@ -1,3 +1,11 @@
+Sat 21 Aug 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Fix release build
+	* Fix uninitialized private variables for Scene
+
+Thu 19 Aug 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
+	* Add opponent cats
+	* Create Scene and Manager
+
 Wed 23 Jun 2021 Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>
 	* Setup GitLab pages (miaow.yasha.rs)
 	* Add .gitlab-ci.yml
