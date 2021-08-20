@@ -56,6 +56,7 @@ pages:
     - make build:release
     - rm -fr public && mkdir -p public
     - cp -R dst/* public/
+    - sed 's/\.js/\.min\0/' -i public/index.html
   artifacts:
     untracked: true
     paths:
