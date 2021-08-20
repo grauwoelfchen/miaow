@@ -1,7 +1,6 @@
 import { Item } from './item';
 
 export class Opponent extends Item {
-
   public constructor(
     ctx: CanvasRenderingContext2D
   , x: number
