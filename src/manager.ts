@@ -4,8 +4,8 @@ export class Manager {
   private registry: { [key: string]: Scene } = {};
   private activeScene?: Scene = undefined;
 
-  public frame: number = 0;
-  public time: number = 0.0;
+  public frame: number;
+  public time: number;
 
   public constructor() {
     this.frame = 0;

@@ -4,22 +4,19 @@ import { Shot } from './shot';
 
 export class User extends Item {
   // shots
-  private hearts: Shot[] = [];
-  private winks: { left: Shot[], right: Shot[] } = {
-    left: []
-  , right: []
-  };
+  private hearts: Shot[];
+  private winks: { left: Shot[], right: Shot[] };
 
-  private isShooting: boolean = false;
-  private isComming: boolean = false;
+  private isShooting: boolean;
+  private isComming: boolean;
 
-  private commingStart: number = 0;
-  private commingEndPosition: Position = new Position(0, 0);
+  private commingStart: number;
+  private commingEndPosition: Position;
 
   // stats
-  private time: number = 0.0;
-  private distance: number = 0;
-  private totalShots: number = 0;
+  private time: number;
+  private distance: number;
+  private totalShots: number;
 
   public constructor(
     ctx: CanvasRenderingContext2D
@@ -31,7 +28,23 @@ export class User extends Item {
   ) {
     super(ctx, x, y, w, h, 0, imagePath);
 
+    this.hearts = [];
+    this.winks = {
+      left: []
+    , right: []
+    };
+
     this.speed = 3;
+
+    this.isShooting = false;
+    this.isComming = false;
+
+    this.commingStart = 0;
+    this.commingEndPosition = new Position(0, 0);
+
+    this.time = 0.0;
+    this.distance = 0;
+    this.totalShots = 0;
   }
 
   public setHearts(hearts: Shot[]): void {
