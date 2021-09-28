@@ -9,7 +9,7 @@
   <body>
     <div class="header">
       <h1>Miaow</h1>
-      <p>A rainy day at the garden...<br/>
+      <p class="story">A rainy day at the garden...<br/>
         You, a Norwegian Forest Cat who loves calm and cozy stroll<br/>
         has trouble dealing with your noisy friends.</p>
     </div>
@@ -30,6 +30,9 @@
       <li><span>Hearts</span>Shift</li>
       <li><span>Winks</span>(← | →) + Shift</li>
     </ul>
+    <p class="links">
+      <a href="https://gitlab.com/grauwoelfchen/miaow">source code</a>
+    </p>
     <div class="right-drops">
       <div class="drop"></div>
       <div class="drop"></div>
@@ -41,32 +44,34 @@
       <div class="drop"></div>
       <div class="drop"></div>
     </div>
-    <div class="controls">
-      <label for="stats_check">
-        <input type="checkbox" id="stats_check" value="0" />
-        Stats for Nerds
-      </label>
-    </div>
-    <div id="stats">
-      <div>
-        <label>scene:</label>
-        <span id="scene"></span>
+    <div class="overlay">
+      <div class="controls">
+        <label for="stats_check">
+          <input type="checkbox" id="stats_check" value="0" />
+          <span>Stats for Nerds</span>
+        </label>
       </div>
-      <div>
-        <label>time:</label>
-        <span id="time"></span>
-      </div>
-      <div>
-        <label>total shots:</label>
-        <span id="total_shots"></span>
-      </div>
-      <div>
-        <label>active shots:</label>
-        <span id="active_shots"></span>
-      </div>
-      <div>
-        <label>distance:</label>
-        <span id="distance"></span>
+      <div id="stats">
+        <div>
+          <label>scene:</label>
+          <span id="scene"></span>
+        </div>
+        <div>
+          <label>time:</label>
+          <span id="time"></span>
+        </div>
+        <div>
+          <label>total shots:</label>
+          <span id="total_shots"></span>
+        </div>
+        <div>
+          <label>active shots:</label>
+          <span id="active_shots"></span>
+        </div>
+        <div>
+          <label>distance:</label>
+          <span id="distance"></span>
+        </div>
       </div>
     </div>
   </body>

@@ -26,6 +26,19 @@ input[type="checkbox"]
   position relative
   vertical-align middle
 
+.story
+  font-size 96%
+  color #454545
+  margin 0.73rem 0 0.29rem 0
+
+.links
+  margin 0
+  padding 0
+  a
+    display block
+    font-size 92%
+    margin 0.99rem 0 0.31rem 0
+
 .instructions li
   display inline
   margin 0 0.84rem 0 0
@@ -46,12 +59,20 @@ input[type="checkbox"]
 .instructions
   margin 0.12rem 0 0.6rem 0
 
+.overlay
+  position absolute
+  bottom 0
+  z-index 0
+  width 100%
+
 div#stats
+  z-index 0
+  width 100%
   background-color #222222
   color #f0f0f0
   font-family mono
   margin 0
-  padding 0.183em 0
+  padding 1.25em 0 0.883rem 0
 
 div#stats label
   color #f0f0f0
@@ -163,6 +184,7 @@ div#stats label
   width 22rem
 
   .drop
+    z-index 9
     position absolute
     width 0.21rem
     height 100%
