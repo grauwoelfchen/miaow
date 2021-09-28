@@ -14,12 +14,10 @@ h1
   color #434343
   margin 0.48rem auto 0.24rem auto
 
-
 canvas
   border 2px solid #777777
   border-radius 0.28rem
   margin 0.24rem auto
-
 
 input[type="checkbox"]
   bottom 1px
@@ -55,6 +53,138 @@ div#stats
   margin 0
   padding 0.183em 0
 
-
 div#stats label
   color #f0f0f0
+
+.left-drops
+  left 0
+
+  .drop
+    &:nth-child(1)
+      margin-left 6%
+      &:after
+        animation-delay 3.35s
+
+    &:nth-child(2)
+      margin-left 10%
+      &:after
+        animation-delay 1.29s
+
+    &:nth-child(3)
+      margin-left 21%
+      &:after
+        animation-delay 4.21s
+
+    &:nth-child(4)
+      margin-left 38%
+      &:after
+        animation-delay 0.1s
+
+    &:nth-child(5)
+      margin-left 51%
+      &:after
+        animation-delay 6.93s
+
+    &:nth-child(6)
+      margin-left 55%
+      &:after
+        animation-delay 1.13s
+
+    &:nth-child(7)
+      margin-left 79%
+      &:after
+        animation-delay 9.93s
+
+    &:nth-child(8)
+      margin-left 82%
+      &:after
+        animation-delay 3.15s
+
+    &:nth-child(9)
+      margin-left 99%
+      &:after
+        animation-delay 6.93s
+
+.right-drops
+  right 0
+
+  .drop
+    &:nth-child(1)
+      margin-left 1%
+      &:after
+        animation-delay 1.14s
+
+    &:nth-child(2)
+      margin-left 8%
+      &:after
+        animation-delay 8.05s
+
+    &:nth-child(3)
+      margin-left 11%
+      &:after
+        animation-delay 1.29s
+
+    &:nth-child(4)
+      margin-left 14%
+      &:after
+        animation-delay 3.16s
+
+    &:nth-child(5)
+      margin-left 25%
+      &:after
+        animation-delay 9.04s
+
+    &:nth-child(6)
+      margin-left 27%
+      &:after
+        animation-delay 0.04s
+
+    &:nth-child(7)
+      margin-left 33%
+      &:after
+        animation-delay 2.14s
+
+    &:nth-child(8)
+      margin-left 59%
+      &:after
+        animation-delay 0.55s
+
+    &:nth-child(9)
+      margin-left 86%
+      &:after
+        animation-delay 9.19s
+
+.left-drops,
+.right-drops
+  position absolute
+  top 0
+  height 100%
+  margin auto
+  width 22rem
+
+  .drop
+    position absolute
+    width 0.21rem
+    height 100%
+    top 0
+    background none
+    overflow hidden
+
+    &:after
+      content ''
+      display block
+      position absolute
+      height 6vh
+      width 100%
+      top -10%
+      left 0
+      background linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, skyblue 62%, skyblue 83%)
+      animation drop 9s 0s infinite
+      animation-fill-mode  forwards
+      animation-timing-function cubic-bezier(0,4, 0.26, 0, 0.97)
+
+@keyframes drop
+  0%
+    top -50%
+  100%
+    top 110%

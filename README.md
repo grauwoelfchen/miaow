@@ -9,6 +9,11 @@ modifications as personal practice, and written in TypeScript.
 
 You can play this at: https://miaow.yasha.rs
 
+## Story
+
+A rainy day at the garden...
+You, a Norwegian Forest Cat who loves calm and cozy stroll has trouble dealing
+with your noisy friends.
 
 ## How to play
 
