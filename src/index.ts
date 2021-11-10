@@ -1,7 +1,7 @@
 import { CanvasUtility } from './canvas';
 import { Shot } from './shot';
 import { User } from './user';
-import { Opponent } from './opponent';
+import { Friend } from './friend';
 import { Manager } from './manager';
 
 import './style.styl';
@@ -19,7 +19,7 @@ declare global {
   const CANVAS_HEIGHT: number = 480;
 
   const SHOT_MAX: number = 6;
-  const OPPO_MAX: number = 9;
+  const FRIEND_MAX: number = 9;
 
   let util: CanvasUtility;
   let canvas: HTMLCanvasElement;
@@ -36,8 +36,8 @@ declare global {
   , right: []
   };
 
-  // opponents
-  const others: Opponent[] = [];
+  // friends
+  const friends: Friend[] = [];
 
   window.addEventListener('load', () => {
     util = new CanvasUtility(document.querySelector('#canvas'));
@@ -93,9 +93,9 @@ declare global {
     user.setHearts(hearts);
     user.setWinks(winks);
 
-    // opponents
-    for (let j = 0; j < OPPO_MAX; ++j) {
-      others[j] = new Opponent(ctx, 0, 0, 48, 48, './img/other.png');
+    // friends
+    for (let j = 0; j < FRIEND_MAX; ++j) {
+      friends[j] = new Friend(ctx, 0, 0, 48, 48, './img/friend.png');
     }
   }
 
@@ -114,9 +114,8 @@ declare global {
       ready = ready && w.isReady();
     });
 
-    // opponents
-    others.map((o) => {
-      ready = ready && o.isReady();
+    friends.map((f) => {
+      ready = ready && f.isReady();
     });
 
     if (ready === true) {
@@ -145,10 +144,10 @@ declare global {
     });
     manager.registerScene('stroll', (_: number) => {
       if (manager.frame === 0) {
-        for (let i = 0; i < OPPO_MAX; ++i) {
+        for (let i = 0; i < FRIEND_MAX; ++i) {
           // encounter
-          if (others[i].isCharmed()) {
-            const c = others[i];
+          if (friends[i].isCharmed()) {
+            const c = friends[i];
             const h = c.getHeight();
 
             // TODO
@@ -182,8 +181,8 @@ declare global {
       w.update();
     });
 
-    others.map((c) => {
-      c.update();
+    friends.map((f) => {
+      f.update();
     });
 
     manager.update();
