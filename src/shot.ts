@@ -16,13 +16,28 @@ export class Shot extends Item {
     this.vector = new Position(0.0, -1.0);
   }
 
-  public set (x: number, y: number): void {
+  public set(x: number, y: number): void {
     this.position.set(x, y);
     this.life = 1;
   }
 
-  public update (): void {
-    if (this.life <= 0) { return; }
+  public setSpeed(speed: number): void {
+    if (speed != null && speed > 0) {
+      this.speed = speed;
+    }
+  }
+
+  public getSpeed(): number {
+    return this.speed;
+  }
+
+  public isDead(): boolean {
+    return this.life <= 0;
+  }
+
+  public update(): void {
+    if (this.isDead()) { return; }
+
     if (this.position.y + this.height < 0) {
       this.life = 0;
     }

@@ -12,6 +12,7 @@ export abstract class Item {
   protected height: number;
 
   protected speed: number;
+  protected frame: number;
 
   protected life: number;
 
@@ -36,6 +37,7 @@ export abstract class Item {
     this.height = h;
 
     this.speed = 0;
+    this.frame = 0;
 
     this.life = life;
 

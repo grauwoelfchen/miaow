@@ -18,8 +18,9 @@ declare global {
   const CANVAS_WIDTH: number = 640;
   const CANVAS_HEIGHT: number = 480;
 
-  const SHOT_MAX: number = 6;
+  const USER_SHOT_MAX: number = 6;
   const FRIEND_MAX: number = 9;
+  const FRIEND_SHOT_MAX: number = 55;
 
   let util: CanvasUtility;
   let canvas: HTMLCanvasElement;
@@ -38,6 +39,7 @@ declare global {
 
   // friends
   const friends: Friend[] = [];
+  const friendHearts: Shot[] = [];
 
   window.addEventListener('load', () => {
     util = new CanvasUtility(document.querySelector('#canvas'));
@@ -85,7 +87,7 @@ declare global {
     );
 
     // shots
-    for (let i = 0; i < SHOT_MAX; ++i) {
+    for (let i = 0; i < USER_SHOT_MAX; ++i) {
       hearts[i] = new Shot(ctx, 0, 0, 32, 32, './img/heart.png');
       winks.left[i]  = new Shot(ctx, 0, 0, 16, 16, './img/wink.png');
       winks.right[i] = new Shot(ctx, 0, 0, 16, 16, './img/wink.png');
@@ -93,9 +95,14 @@ declare global {
     user.setHearts(hearts);
     user.setWinks(winks);
 
+    for (let k = 0; k < FRIEND_SHOT_MAX; ++k) {
+      friendHearts[k] = new Shot(ctx, 0, 0, 32, 32, './img/heart.png');
+    }
+
     // friends
     for (let j = 0; j < FRIEND_MAX; ++j) {
       friends[j] = new Friend(ctx, 0, 0, 48, 48, './img/friend.png');
+      friends[j].setHearts(friendHearts);
     }
   }
 
@@ -112,6 +119,10 @@ declare global {
     });
     winks.right.map((w) => {
       ready = ready && w.isReady();
+    });
+
+    friendHearts.map((fh) => {
+      ready = ready && fh.isReady();
     });
 
     friends.map((f) => {
@@ -183,6 +194,10 @@ declare global {
 
     friends.map((f) => {
       f.update();
+    });
+
+    friendHearts.map((fh) => {
+      fh.update();
     });
 
     manager.update();
