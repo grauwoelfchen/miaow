@@ -61,14 +61,63 @@ declare global {
 
     manager = new Manager();
 
-    const check = document.getElementById('stats_check') as HTMLInputElement;
-    if (check != null) {
-      check.checked = false;
+    const audio = new Audio('./music.mp3');
+    audio.loop = true;
+    audio.volume = 0.6;
+
+    const soundCheck =
+      document.getElementById('sound_check') as HTMLInputElement;
+    if (soundCheck != null) {
+      soundCheck.checked = false;
+      const sound = document.getElementById('sound');
+      if (sound != null) {
+        sound.hidden = true;
+
+        const play = document.querySelector('#sound button#play')
+            , pause = document.querySelector('#sound button#pause')
+            ;
+        if ((play != null) && (pause != null)) {
+          play.addEventListener('click', () => {
+            audio.play();
+            play.setAttribute('disabled', 'true');
+            pause.removeAttribute('disabled');
+          });
+
+          pause.addEventListener('click', () => {
+            play.removeAttribute('disabled');
+            pause.setAttribute('disabled', 'true');
+            audio.pause();
+          });
+        }
+
+        const volume =
+          document.querySelector('#sound input#volume') as HTMLInputElement;
+        if (volume != null) {
+          volume.addEventListener('input', () => {
+            const v = parseInt(volume.value, 10);
+            audio.volume = (v / 100);
+          });
+        }
+
+        soundCheck.addEventListener('change', () => {
+          if (soundCheck.checked) {
+            sound.hidden = false;
+          } else {
+            sound.hidden = true;
+          }
+        });
+      }
+    }
+
+    const statsCheck =
+      document.getElementById('stats_check') as HTMLInputElement;
+    if (statsCheck != null) {
+      statsCheck.checked = false;
       const stats = document.getElementById('stats');
       if (stats != null) {
         stats.hidden = true;
-        check.addEventListener('change', () => {
-          if (check.checked) {
+        statsCheck.addEventListener('change', () => {
+          if (statsCheck.checked) {
             stats.hidden = false;
           } else {
             stats.hidden = true;

@@ -3,5 +3,6 @@
 
 dst/**
 !dst/index.html
+!dst/music.mp3
 !dst/img/
 !dst/img/*

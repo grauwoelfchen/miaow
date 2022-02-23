@@ -46,10 +46,25 @@
     </div>
     <div class="overlay">
       <div class="controls">
+        <label for="sound_check">
+          <input type="checkbox" id="sound_check" value="0" />
+          <span>Sound Controls</span>
+        </label>
+
         <label for="stats_check">
           <input type="checkbox" id="stats_check" value="0" />
           <span>Stats for Nerds</span>
         </label>
+      </div>
+      <div id="sound">
+        <div class="player">
+          <button id="play">▶ Play</button>
+          <button id="pause" disabled>⏸ Pause</button>
+          <span>
+            <label for="volume">🔊</label>
+            <input type="range" min="1" max="100" step="1" value="60" id="volume"/>
+          </span>
+        </div>
       </div>
       <div id="stats">
         <div>

@@ -65,15 +65,80 @@ input[type="checkbox"]
   z-index 0
   width 100%
 
+div#sound,
 div#stats
   z-index 0
   width 100%
-  background-color #222222
   color #f0f0f0
   font-family mono
   margin 0
   padding 1.25em 0 0.883rem 0
 
+div#sound
+  background-color #464646
+
+  .player
+    width 16rem
+    margin auto
+    height 1.98rem
+
+  button
+    display inline-block
+    float left
+    background-color #666666
+    border 0
+    border-radius 0.18rem
+    margin-left 0.29rem
+    margin-right 0.29rem
+    vertical-align baseline
+
+    &#play
+      line-height 1.2em
+      padding 0.32rem 0.58rem
+      cursor pointer
+      &:disabled
+        background-color #222222
+        cursor not-allowed
+
+    &#pause
+      line-height 1.24em
+      padding 0.32rem 0.58rem
+      cursor pointer
+      &:disabled
+        background-color #222222
+        cursor not-allowed
+
+  span
+    display inline-block
+    float left
+    margin-top 0.13rem
+    margin-left 0.42rem
+
+    label
+      display inline-block
+      vertical-align top
+      margin-top 0.22rem
+
+    input#volume
+      display inline-block
+      width 3.9em
+      background-color #666666
+      outline none
+      margin-left 0.09rem
+      opacity 0.8
+      transition opacity .2s
+      &:hover
+        opacity 1
+      &::-webkit-slider-thumb,
+      &::-moz-range-thumb
+        cursor pointer
+        height 0.8rem
+        width 0.8rem
+
+div#stats
+  background-color #222222
+
+div#sound label,
 div#stats label
   color #f0f0f0
 
