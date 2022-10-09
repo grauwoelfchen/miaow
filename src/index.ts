@@ -22,33 +22,32 @@ declare global {
   const FRIEND_MAX: number = 9;
   const FRIEND_SHOT_MAX: number = 55;
 
-  let util: CanvasUtility;
-  let canvas: HTMLCanvasElement;
-  let ctx: CanvasRenderingContext2D;
+  let _util: CanvasUtility;
+  let _canvas: HTMLCanvasElement;
+  let _ctx: CanvasRenderingContext2D;
 
-  let manager: Manager;
+  let _manager: Manager;
 
-  let user: User;
-
-  // shots
-  const hearts: Shot[] = [];
-  const winks: { left: Shot[], right: Shot[] } = {
+  // user
+  let _user: User;
+  const _userBites: Shot[] = [];
+  const _userWinks: { left: Shot[], right: Shot[] } = {
     left:  []
   , right: []
   };
 
   // friends
-  const friends: Friend[] = [];
-  const friendHearts: Shot[] = [];
+  let _friends: Friend[];
+  const _friendBites: Shot[] = [];
 
   window.addEventListener('load', () => {
-    util = new CanvasUtility(document.querySelector('#canvas'));
+    _util = new CanvasUtility(document.querySelector('#canvas'));
 
-    if (util.canvas != null) {
-      canvas = util.canvas;
+    if (_util.canvas != null) {
+      _canvas = _util.canvas;
     }
-    if (util.context != null) {
-      ctx = util.context;
+    if (_util.context != null) {
+      _ctx = _util.context;
     }
 
     initialize();
@@ -56,10 +55,10 @@ declare global {
   }, false);
 
   function initialize() {
-    canvas.width = CANVAS_WIDTH;
-    canvas.height = CANVAS_HEIGHT;
+    _canvas.width = CANVAS_WIDTH;
+    _canvas.height = CANVAS_HEIGHT;
 
-    manager = new Manager();
+    _manager = new Manager();
 
     const audio = new Audio('./music.mp3');
     audio.loop = true;
@@ -126,9 +125,9 @@ declare global {
       }
     }
 
-    user = new User(ctx, 0, 0, 64, 64, './img/cat.png');
+    _user = new User(_ctx, 0, 0, 64, 64, './img/cat.png');
     const x = (CANVAS_WIDTH / 2);
-    user.setComming(
+    _user.setComming(
       x
     , CANVAS_HEIGHT
     , x
@@ -137,44 +136,47 @@ declare global {
 
     // shots
     for (let i = 0; i < USER_SHOT_MAX; ++i) {
-      hearts[i] = new Shot(ctx, 0, 0, 32, 32, './img/heart.png');
-      winks.left[i]  = new Shot(ctx, 0, 0, 16, 16, './img/wink.png');
-      winks.right[i] = new Shot(ctx, 0, 0, 16, 16, './img/wink.png');
+      _userBites[i] = new Shot(_ctx, 0, 0, 32, 32, './img/heart.png');
+      _userWinks.left[i]  = new Shot(_ctx, 0, 0, 16, 16, './img/wink.png');
+      _userWinks.right[i] = new Shot(_ctx, 0, 0, 16, 16, './img/wink.png');
     }
-    user.setHearts(hearts);
-    user.setWinks(winks);
+    _user.setBites(_userBites);
+    _user.setWinks(_userWinks);
 
+    _friends = [];
     for (let k = 0; k < FRIEND_SHOT_MAX; ++k) {
-      friendHearts[k] = new Shot(ctx, 0, 0, 32, 32, './img/heart.png');
+      _friendBites[k] = new Shot(_ctx, 0, 0, 32, 32, './img/heart.png');
     }
 
     // friends
     for (let j = 0; j < FRIEND_MAX; ++j) {
-      friends[j] = new Friend(ctx, 0, 0, 48, 48, './img/friend.png');
-      friends[j].setHearts(friendHearts);
+      _friends[j] = new Friend(_ctx, 0, 0, 48, 48, './img/friend.png');
+      _friends[j].setBites(_friendBites);
     }
   }
 
   function loaded() {
     let ready = true;
-    ready = ready && user.isReady();
+    ready = ready && _user.isReady();
 
     // shots
-    hearts.map((h) => {
-      ready = ready && h.isReady();
+
+    // user
+    _userBites.map((b: Shot) => {
+      ready = ready && b.isReady();
     });
-    winks.left.map((w) => {
+    _userWinks.left.map((w: Shot) => {
       ready = ready && w.isReady();
     });
-    winks.right.map((w) => {
+    _userWinks.right.map((w: Shot) => {
       ready = ready && w.isReady();
     });
 
-    friendHearts.map((fh) => {
-      ready = ready && fh.isReady();
+    // friends
+    _friendBites.map((b: Shot) => {
+      ready = ready && b.isReady();
     });
-
-    friends.map((f) => {
+    _friends.map((f: Friend) => {
       ready = ready && f.isReady();
     });
 
@@ -188,26 +190,26 @@ declare global {
   }
 
   function configureEvents() {
-    window.addEventListener('keydown', (e) => {
+    window.addEventListener('keydown', (e: KeyboardEvent) => {
       window.KeyDown[e.key] = true;
     }, false);
-    window.addEventListener('keyup', (e) => {
+    window.addEventListener('keyup', (e: KeyboardEvent) => {
       window.KeyDown[e.key] = false;
     }, false);
   }
 
   function configureScenes() {
-    manager.registerScene('start', (_: number) => {
-      if (user.isAllSet()) {
-        manager.switchScene('stroll');
+    _manager.registerScene('start', (_: number) => {
+      if (_user.isAllSet()) {
+        _manager.switchScene('stroll');
       }
     });
-    manager.registerScene('stroll', (_: number) => {
-      if (manager.frame === 0) {
+    _manager.registerScene('stroll', (_: number) => {
+      if (_manager.frame === 0) {
         for (let i = 0; i < FRIEND_MAX; ++i) {
           // encounter
-          if (friends[i].isCharmed()) {
-            const c = friends[i];
+          if (_friends[i].isCharmed()) {
+            const c = _friends[i];
             const h = c.getHeight();
 
             // TODO
@@ -217,63 +219,62 @@ declare global {
             break;
           }
         }
-      } else if (manager.frame >= 128) {
-        manager.switchScene('stroll');
+      } else if (_manager.frame >= 128) {
+        _manager.switchScene('stroll');
       }
     });
-    manager.switchScene('start');
+    _manager.switchScene('start');
   }
 
   function render() {
-    ctx.globalAlpha = 1.0;
-    util.drawRect(0, 0, canvas.width, canvas.height, '#f3f3f3');
+    _ctx.globalAlpha = 1.0;
+    _util.drawRect(0, 0, _canvas.width, _canvas.height, '#f3f3f3');
 
-    user.update();
+    _user.update();
 
-    hearts.map((h) => {
-      h.update();
+    _userBites.map((b: Shot) => {
+      b.update();
     });
 
-    winks.left.map((w) => {
+    _userWinks.left.map((w: Shot) => {
       w.update();
     });
-    winks.right.map((w) => {
+    _userWinks.right.map((w: Shot) => {
       w.update();
     });
 
-    friends.map((f) => {
+    _friends.map((f: Friend) => {
       f.update();
     });
-
-    friendHearts.map((fh) => {
-      fh.update();
+    _friendBites.map((b: Shot) => {
+      b.update();
     });
 
-    manager.update();
+    _manager.update();
 
     const s = document.getElementById('scene');
     if (s != null) {
-      s.innerText = manager.getCurrentSceneName();
+      s.innerText = _manager.getCurrentSceneName();
     }
 
     const t = document.getElementById('time');
     if (t != null) {
-      t.innerText = user.totalTime();
+      t.innerText = _user.totalTime();
     }
 
     const ts = document.getElementById('total_shots');
     if (ts != null) {
-      ts.innerText = user.totalShotsCount();
+      ts.innerText = _user.totalShotsCount();
     }
 
     const as = document.getElementById('active_shots');
     if (as != null) {
-      as.innerText = user.activeShotsCount();
+      as.innerText = _user.activeShotsCount();
     }
 
     const d = document.getElementById('distance');
     if (d != null) {
-      d.innerText = user.totalDistance();
+      d.innerText = _user.totalDistance();
     }
 
     // e.g. 60 times per 1 seconds

@@ -4,7 +4,7 @@ import { Shot } from './shot';
 
 export class User extends Item {
   // shots
-  private hearts: Shot[];
+  private bites: Shot[];
   private winks: { left: Shot[], right: Shot[] };
 
   private isShooting: boolean;
@@ -28,7 +28,7 @@ export class User extends Item {
   ) {
     super(ctx, x, y, w, h, 0, imagePath);
 
-    this.hearts = [];
+    this.bites = [];
     this.winks = {
       left: []
     , right: []
@@ -47,8 +47,8 @@ export class User extends Item {
     this.totalShots = 0;
   }
 
-  public setHearts(hearts: Shot[]): void {
-    this.hearts = hearts;
+  public setBites(bites: Shot[]): void {
+    this.bites = bites;
   }
 
   public setWinks(winks: { left: Shot[], right: Shot[] }): void {
@@ -85,7 +85,7 @@ export class User extends Item {
 
   public activeShotsCount(): string {
     return String(
-      this.hearts.filter((s: Shot) => !s.isTired()).length +
+      this.bites.filter((s: Shot) => !s.isTired()).length +
         this.winks.left.filter((w: Shot) => !w.isTired()).length +
         this.winks.right.filter((w: Shot) => !w.isTired()).length
     );
@@ -137,9 +137,9 @@ export class User extends Item {
       }
 
       if (window.KeyDown.Shift === true && this.isShooting === false) {
-        for (const [i, _h] of this.hearts.entries()) {
-          if (this.hearts[i].isTired()) {
-            this.hearts[i].set(this.position.x, this.position.y);
+        for (const [i, _h] of this.bites.entries()) {
+          if (this.bites[i].isTired()) {
+            this.bites[i].set(this.position.x, this.position.y);
             this.totalShots += 1;
 
             // moving left

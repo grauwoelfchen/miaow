@@ -2,7 +2,7 @@ import { Item } from './item';
 import { Shot } from './shot';
 
 export class Friend extends Item {
-  private hearts: Shot[];
+  private bites: Shot[];
   private kind: string;
 
   public constructor(
@@ -16,7 +16,7 @@ export class Friend extends Item {
     super(ctx, x, y, w, h, 0, imagePath);
 
     this.kind = 'default';
-    this.hearts = [];
+    this.bites = [];
 
     this.speed = 1.18;
     this.frame = 0;
@@ -34,19 +34,19 @@ export class Friend extends Item {
     this.frame = 0;
   }
 
-  public setHearts(hearts: Shot[]): void {
-    this.hearts = hearts;
+  public setBites(bites: Shot[]): void {
+    this.bites = bites;
   }
 
   public fire(
     x: number = 0.0
   , y: number = 1.0
   ) {
-    for (const [i, h] of this.hearts.entries()) {
+    for (const [i, h] of this.bites.entries()) {
       if (h.isDead()) {
-        this.hearts[i].set(this.position.x, this.position.y);
-        this.hearts[i].setSpeed(4.4);
-        this.hearts[i].setVector(x, y);
+        this.bites[i].set(this.position.x, this.position.y);
+        this.bites[i].setSpeed(4.4);
+        this.bites[i].setVector(x, y);
         break;
       }
     }
