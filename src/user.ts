@@ -85,9 +85,9 @@ export class User extends Item {
 
   public activeShotsCount(): string {
     return String(
-      this.bites.filter((s: Shot) => !s.isTired()).length +
-        this.winks.left.filter((w: Shot) => !w.isTired()).length +
-        this.winks.right.filter((w: Shot) => !w.isTired()).length
+      this.bites.filter((s: Shot) => !s.isDone()).length +
+        this.winks.left.filter((w: Shot) => !w.isDone()).length +
+        this.winks.right.filter((w: Shot) => !w.isDone()).length
     );
   }
 
@@ -138,7 +138,8 @@ export class User extends Item {
 
       if (window.KeyDown.Shift === true && this.isShooting === false) {
         for (const [i, _h] of this.bites.entries()) {
-          if (this.bites[i].isTired()) {
+          if (this.bites[i].isDone()) {
+            this.bites[i].setPower(2);
             this.bites[i].set(this.position.x, this.position.y);
             this.totalShots += 1;
 
@@ -146,7 +147,7 @@ export class User extends Item {
             if (window.KeyDown.ArrowLeft === true) {
               setTimeout(() => {
                 for (const [j, _l] of this.winks.left.entries()) {
-                  if (this.winks.left[j].isTired()) {
+                  if (this.winks.left[j].isDone()) {
                     const a = 260 * Math.PI / 180;
                     this.winks.left[j].set(this.position.x, this.position.y);
                     this.winks.left[j].setVectorFromAngle(a);
@@ -161,7 +162,7 @@ export class User extends Item {
             if (window.KeyDown.ArrowRight === true) {
               setTimeout(() => {
                 for (const [k, _r] of this.winks.right.entries()) {
-                  if (this.winks.right[k].isTired()) {
+                  if (this.winks.right[k].isDone()) {
                     const a = 280 * Math.PI / 180;
                     this.winks.right[k].set(this.position.x, this.position.y);
                     this.winks.right[k].setVectorFromAngle(a);

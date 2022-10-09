@@ -134,25 +134,28 @@ declare global {
     , CANVAS_HEIGHT - 100
     );
 
-    // shots
-    for (let i = 0; i < USER_SHOT_MAX; ++i) {
-      _userBites[i] = new Shot(_ctx, 0, 0, 32, 32, './img/heart.png');
-      _userWinks.left[i]  = new Shot(_ctx, 0, 0, 16, 16, './img/wink.png');
-      _userWinks.right[i] = new Shot(_ctx, 0, 0, 16, 16, './img/wink.png');
-    }
-    _user.setBites(_userBites);
-    _user.setWinks(_userWinks);
-
+    // friends
     _friends = [];
     for (let k = 0; k < FRIEND_SHOT_MAX; ++k) {
       _friendBites[k] = new Shot(_ctx, 0, 0, 32, 32, './img/heart.png');
     }
 
-    // friends
     for (let j = 0; j < FRIEND_MAX; ++j) {
       _friends[j] = new Friend(_ctx, 0, 0, 48, 48, './img/friend.png');
       _friends[j].setBites(_friendBites);
     }
+
+    // shots
+    for (let i = 0; i < USER_SHOT_MAX; ++i) {
+      _userBites[i] = new Shot(_ctx, 0, 0, 32, 32, './img/heart.png');
+      _userBites[i].setTargets(_friends);
+      _userWinks.left[i]  = new Shot(_ctx, 0, 0, 16, 16, './img/wink.png');
+      _userWinks.left[i].setTargets(_friends);
+      _userWinks.right[i] = new Shot(_ctx, 0, 0, 16, 16, './img/wink.png');
+      _userWinks.right[i].setTargets(_friends);
+    }
+    _user.setBites(_userBites);
+    _user.setWinks(_userWinks);
   }
 
   function loaded() {
@@ -209,12 +212,10 @@ declare global {
         for (let i = 0; i < FRIEND_MAX; ++i) {
           // encounter
           if (_friends[i].isCharmed()) {
-            const c = _friends[i];
-            const h = c.getHeight();
+            const f = _friends[i];
 
-            // TODO
-            c.set(CANVAS_WIDTH / 2, -h, 1);
-            c.setVector(0.0, 1.0);
+            f.set(CANVAS_WIDTH / 2, -f.height, 2);
+            f.setVector(0.0, 1.0);
 
             break;
           }

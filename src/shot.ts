@@ -2,6 +2,9 @@ import { Item } from './item';
 import { Position } from './position';
 
 export class Shot extends Item {
+  private power: number;
+  private targets: Item[];
+
   public constructor(
     ctx: CanvasRenderingContext2D
   , x: number
@@ -14,6 +17,9 @@ export class Shot extends Item {
 
     this.speed = 0.96;
     this.vector = new Position(0.0, -1.0);
+
+    this.power = 1;
+    this.targets = [];
   }
 
   public set(x: number, y: number): void {
@@ -31,18 +37,45 @@ export class Shot extends Item {
     return this.speed;
   }
 
-  public isDead(): boolean {
-    return this.life <= 0;
+  public setPower(power: number): void {
+    if (power != null) {
+      this.power = power;
+    }
+  }
+
+  public setTargets(targets: Item[]): void {
+    if (targets != null && Array.isArray(targets) && targets.length > 0) {
+      this.targets = targets;
+    }
+  }
+
+  public isDone(): boolean {
+    return this.isGone();
   }
 
   public update(): void {
-    if (this.isDead()) { return; }
+    if (this.isDone()) { return; }
 
+    // if shot goes out of screen
     if (this.position.y + this.height < 0) {
       this.life = 0;
     }
+
+    // move
     this.position.x += this.vector.x * this.speed;
     this.position.y += this.vector.y * this.speed;
+
+    // check collision for targets
+    this.targets.map((t: Item) => {
+      if (this.isDone() || t.isGone()) { return; }
+
+      const d = this.position.getDistance(t.getPosition());
+      if (d <= (this.width + t.width) / 4) {
+        t.setLife(t.getLife() - this.power);
+        this.life = 0;
+      }
+    });
+
     this.rotationDraw();
   }
 }

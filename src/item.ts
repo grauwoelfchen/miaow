@@ -5,18 +5,18 @@ export abstract class Item {
   protected image: HTMLImageElement;
 
   protected angle: number;
+
+  protected ready: boolean;
+
   protected vector: Position;
-
   protected position: Position;
-  protected width: number;
-  protected height: number;
-
-  protected speed: number;
-  protected frame: number;
 
   protected life: number;
 
-  protected ready: boolean;
+  public width: number;
+  public height: number;
+  public speed: number;
+  public frame: number;
 
   protected constructor(
     ctx: CanvasRenderingContext2D
@@ -31,15 +31,14 @@ export abstract class Item {
 
     this.angle = 270 * Math.PI / 180;
     this.vector = new Position(0, 0);
-
     this.position = new Position(x, y);
-    this.width = w;
-    this.height = h;
-
-    this.speed = 0;
-    this.frame = 0;
 
     this.life = life;
+
+    this.width = w;
+    this.height = h;
+    this.speed = 0;
+    this.frame = 0;
 
     this.ready = false;
 
@@ -54,7 +53,7 @@ export abstract class Item {
     return this.ready;
   }
 
-  public isTired(): boolean {
+  public isGone(): boolean {
     return this.life <= 0;
   }
 
@@ -75,8 +74,16 @@ export abstract class Item {
     this.vector.set(x, y);
   }
 
-  public getHeight(): number {
-    return this.height;
+  public getPosition(): Position {
+    return this.position;
+  }
+
+  public setLife(life: number): void {
+    this.life = life;
+  }
+
+  public getLife(): number {
+    return this.life;
   }
 
   protected rotationDraw(): void {

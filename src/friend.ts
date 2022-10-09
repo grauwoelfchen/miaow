@@ -42,8 +42,8 @@ export class Friend extends Item {
     x: number = 0.0
   , y: number = 1.0
   ) {
-    for (const [i, h] of this.bites.entries()) {
-      if (h.isDead()) {
+    for (const [i, b] of this.bites.entries()) {
+      if (b.isDone()) {
         this.bites[i].set(this.position.x, this.position.y);
         this.bites[i].setSpeed(4.4);
         this.bites[i].setVector(x, y);
