@@ -33,11 +33,11 @@ test:
 # }}}
 
 # build {{{
-build\:debug: # Build in development mode [synonym: build]
+build\:debug: # Build in debug mode [synonym: build]
 	npm run build:debug
 .PHONY: build\:debug
 
-build\:release: # Build in production mode
+build\:release: # Build in release mode
 	npm run build:release
 .PHONY: build\:release
 
