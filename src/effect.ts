@@ -4,12 +4,15 @@ export class Dispersion {
   private ctx: CanvasRenderingContext2D;
   private radius: number;
   private count: number;
-  private size: number;
   private duration: number;
   private color: string;
 
+  private fragments: number[]; // size
+  private fragmentBaseSize: number;
+
   private alive: boolean;
   private startTime: number;
+
   private positions: Position[];
   private vectors: Position[];
 
@@ -19,12 +22,11 @@ export class Dispersion {
   , count: number
   , size: number
   , duration: number
-  , color: string = '#d6d6d6'
+  , color: string = '#61484b'
   ) {
     this.ctx = ctx;
     this.radius = radius;
     this.count = count;
-    this.size = size;
     this.duration = duration;
     this.color = color;
 
@@ -32,6 +34,9 @@ export class Dispersion {
     this.startTime = 0;
     this.positions = [];
     this.vectors = [];
+
+    this.fragments = [];
+    this.fragmentBaseSize = size;
   }
 
   public set(x: number, y: number): void {
@@ -40,7 +45,9 @@ export class Dispersion {
       const r = Math.random() * Math.PI * 2.0;
       const sin = Math.sin(r);
       const cos = Math.cos(r);
-      this.vectors[i] = new Position(cos, sin);
+      const rnd = Math.random();
+      this.vectors[i] = new Position(cos * rnd, sin * rnd);
+      this.fragments[i] = (Math.random() * 0.5 + 0.5) * this.fragmentBaseSize;
     }
     this.alive = true;
     this.startTime = Date.now();
@@ -53,12 +60,15 @@ export class Dispersion {
   public update(): void {
     if (!this.isAlive()) { return; }
 
-    this.ctx.fillStyle = this.color;
-    this.ctx.globalAlpha = 0.5;
-
     const time = (Date.now() - this.startTime) / 1000;
     // clamp value: 0.0 - 1.0
-    const progress = Math.min(time / this.duration, 1.0);
+    const ease = this.simpleEaseIn(1.0 - Math.min(time / this.duration, 1.0));
+    const progress = 1.0 - ease;
+
+    const s = 1.0 - progress;
+
+    this.ctx.fillStyle = this.color;
+    this.ctx.globalAlpha = s;
 
     for (let i = 0; i < this.positions.length; ++i) {
       const d = this.radius * progress;
@@ -66,15 +76,19 @@ export class Dispersion {
       const y = this.positions[i].y + this.vectors[i].y * d;
 
       this.ctx.fillRect(
-        x - this.size / 2,
-        y - this.size / 2,
-        this.size,
-        this.size
+        x - this.fragments[i] / 2,
+        y - this.fragments[i] / 2,
+        this.fragments[i] * s,
+        this.fragments[i] * s
       );
     }
 
     if (progress >= 1.0) {
       this.alive = false;
     }
+  }
+
+  private simpleEaseIn(t: number): number {
+    return t * t * t;
   }
 }
