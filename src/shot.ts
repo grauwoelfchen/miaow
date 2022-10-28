@@ -1,9 +1,11 @@
 import { Item } from './item';
 import { Position } from './position';
+import { Dispersion } from './effect';
 
 export class Shot extends Item {
   private power: number;
   private targets: Item[];
+  private effects: Dispersion[];
 
   public constructor(
     ctx: CanvasRenderingContext2D
@@ -20,6 +22,7 @@ export class Shot extends Item {
 
     this.power = 1;
     this.targets = [];
+    this.effects = [];
   }
 
   public set(x: number, y: number): void {
@@ -49,6 +52,12 @@ export class Shot extends Item {
     }
   }
 
+  public setEffects(effects: Dispersion[]): void {
+    if (effects != null && Array.isArray(effects) && effects.length > 0) {
+        this.effects = effects;
+    }
+  }
+
   public isDone(): boolean {
     return this.isGone();
   }
@@ -69,9 +78,20 @@ export class Shot extends Item {
     this.targets.map((t: Item) => {
       if (this.isDone() || t.isGone()) { return; }
 
-      const d = this.position.getDistance(t.getPosition());
+      const pos = t.getPosition();
+      const d = this.position.getDistance(pos);
       if (d <= (this.width + t.width) / 4) {
         t.setLife(t.getLife() - this.power);
+
+        if (t.isGone()) {
+          for (const e of this.effects) {
+            if (!e.isAlive()) {
+              e.set(pos.x, pos.y);
+              break;
+            }
+          }
+        }
+
         this.life = 0;
       }
     });

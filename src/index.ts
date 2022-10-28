@@ -2,6 +2,7 @@ import { CanvasUtility } from './canvas';
 import { Shot } from './shot';
 import { User } from './user';
 import { Friend } from './friend';
+import { Dispersion } from './effect';
 import { Manager } from './manager';
 
 import './style.styl';
@@ -22,6 +23,8 @@ declare global {
   const FRIEND_MAX: number = 9;
   const FRIEND_SHOT_MAX: number = 55;
 
+  const DISPERSION_MAX: number = 10;
+
   let _util: CanvasUtility;
   let _canvas: HTMLCanvasElement;
   let _ctx: CanvasRenderingContext2D;
@@ -39,6 +42,9 @@ declare global {
   // friends
   let _friends: Friend[];
   const _friendBites: Shot[] = [];
+
+  // effects
+  const _dispersions: Dispersion[] = [];
 
   window.addEventListener('load', () => {
     _util = new CanvasUtility(document.querySelector('#canvas'));
@@ -125,6 +131,11 @@ declare global {
       }
     }
 
+    // effects
+    for (let l = 0; l < DISPERSION_MAX; ++l) {
+      _dispersions[l] = new Dispersion(_ctx, 50.0, 15, 30.0, 0.25);
+    }
+
     _user = new User(_ctx, 0, 0, 64, 64, './img/cat.png');
     const x = (CANVAS_WIDTH / 2);
     _user.setComming(
@@ -149,10 +160,13 @@ declare global {
     for (let i = 0; i < USER_SHOT_MAX; ++i) {
       _userBites[i] = new Shot(_ctx, 0, 0, 32, 32, './img/heart.png');
       _userBites[i].setTargets(_friends);
+      _userBites[i].setEffects(_dispersions);
       _userWinks.left[i]  = new Shot(_ctx, 0, 0, 16, 16, './img/wink.png');
       _userWinks.left[i].setTargets(_friends);
+      _userWinks.left[i].setEffects(_dispersions);
       _userWinks.right[i] = new Shot(_ctx, 0, 0, 16, 16, './img/wink.png');
       _userWinks.right[i].setTargets(_friends);
+      _userWinks.right[i].setEffects(_dispersions);
     }
     _user.setBites(_userBites);
     _user.setWinks(_userWinks);
@@ -230,6 +244,10 @@ declare global {
   function render() {
     _ctx.globalAlpha = 1.0;
     _util.drawRect(0, 0, _canvas.width, _canvas.height, '#f3f3f3');
+
+    _dispersions.map((e: Dispersion) => {
+      e.update();
+    });
 
     _user.update();
 
