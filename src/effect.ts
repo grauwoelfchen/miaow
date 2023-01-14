@@ -70,6 +70,11 @@ export class Dispersion {
     this.ctx.fillStyle = this.color;
     this.ctx.globalAlpha = s;
 
+    const s = 1.0 - progress;
+
+    this.ctx.fillStyle = this.color;
+    this.ctx.globalAlpha = s;
+
     for (let i = 0; i < this.positions.length; ++i) {
       const d = this.radius * progress;
       const x = this.positions[i].x + this.vectors[i].x * d;
