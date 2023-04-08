@@ -22,7 +22,7 @@ export class Dispersion {
   , count: number
   , size: number
   , duration: number
-  , color: string = '#61484b'
+  , color: string = '97,72,75'
   ) {
     this.ctx = ctx;
     this.radius = radius;
@@ -67,24 +67,19 @@ export class Dispersion {
 
     const s = 1.0 - progress;
 
-    this.ctx.fillStyle = this.color;
-    this.ctx.globalAlpha = s;
-
-    const s = 1.0 - progress;
-
-    this.ctx.fillStyle = this.color;
-    this.ctx.globalAlpha = s;
+    this.ctx.fillStyle = `rgba(${this.color},${s})`;
 
     for (let i = 0; i < this.positions.length; ++i) {
       const d = this.radius * progress;
       const x = this.positions[i].x + this.vectors[i].x * d;
       const y = this.positions[i].y + this.vectors[i].y * d;
 
+      const n = this.fragments[i] * s;
       this.ctx.fillRect(
         x - this.fragments[i] / 2,
         y - this.fragments[i] / 2,
-        this.fragments[i] * s,
-        this.fragments[i] * s
+        n,
+        n
       );
     }
 
