@@ -7,6 +7,8 @@ This is a game on HTML5 Canvas inspired by an example in
 https://github.com/doxas/graphics-programming-book/), but contains several
 modifications as personal practice, and written in TypeScript.
 
+![Screenshot](img/screenshot.png?raw=true "Screenshot")
+
 You can play this at: https://miaow.yasha.app
 
 ## Story
