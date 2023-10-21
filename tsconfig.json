@@ -27,6 +27,8 @@
   "include": [
     "src/**/*.ts",
     "node_modules/**/*.(js|ts)",
-    "native/*.node"
+    "native/*.node",
+    "**/*.cts",
+    "**/*.mts",
   ]
 }
