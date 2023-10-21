@@ -41,7 +41,7 @@ export class Shot extends Item {
   }
 
   public setPower(power: number): void {
-    if (power != null) {
+    if (power != null && power > 0) {
       this.power = power;
     }
   }
