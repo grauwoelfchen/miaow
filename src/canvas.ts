@@ -23,6 +23,21 @@ export class CanvasUtility {
     return this.context2d;
   }
 
+  public drawText(
+    text: string
+  , x: number
+  , y: number
+  , color: string
+  , width: number
+  ): void {
+    if (this.context2d != null) {
+      if (color != null) {
+        this.context2d.fillStyle = color;
+      }
+      this.context2d.fillText(text, x, y, width);
+    }
+  }
+
   public drawRect(
     x: number
   , y: number

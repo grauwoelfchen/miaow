@@ -1,6 +1,7 @@
 import { Item } from './item';
 import { Position } from './position';
 import { Dispersion } from './effect';
+import { User } from './user';
 
 export class Shot extends Item {
   private power: number;
@@ -81,6 +82,9 @@ export class Shot extends Item {
       const pos = t.getPosition();
       const d = this.position.getDistance(pos);
       if (d <= (this.width + t.width) / 4) {
+        if (t instanceof User) {
+          if (!t.isAllSet) { return; }
+        }
         t.setLife(t.getLife() - this.power);
 
         if (t.isGone()) {

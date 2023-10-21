@@ -61,6 +61,7 @@ export class User extends Item {
   , endX: number
   , endY: number
   ) {
+    this.life = 1;
     this.isComming = true;
     this.commingStart = Date.now();
     this.position.set(startX, startY);
@@ -96,6 +97,8 @@ export class User extends Item {
 
     const time = (justTime - this.commingStart) / 1000; // seconds
     this.time = time;
+
+    if (this.life <= 0) { return; }
 
     if (this.isComming === true) {
       let y = this.time * 50;

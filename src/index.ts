@@ -31,6 +31,8 @@ declare global {
 
   let _manager: Manager;
 
+  let restart: boolean = false;
+
   // user
   let _user: User;
   const _userBites: Shot[] = [];
@@ -149,6 +151,8 @@ declare global {
     _friends = [];
     for (let k = 0; k < FRIEND_SHOT_MAX; ++k) {
       _friendBites[k] = new Shot(_ctx, 0, 0, 32, 32, './img/heart.png');
+      _friendBites[k].setTargets([_user]);
+      _friendBites[k].setEffects(_dispersions);
     }
 
     for (let j = 0; j < FRIEND_MAX; ++j) {
@@ -213,9 +217,45 @@ declare global {
     window.addEventListener('keyup', (e: KeyboardEvent) => {
       window.KeyDown[e.key] = false;
     }, false);
+    window.addEventListener('keydown', (e: KeyboardEvent) => {
+      window.KeyDown[e.key] = true;
+      console.log(e.key);
+      if (e.key === 'Enter') {
+        if (_user.getLife() <= 0) {
+          restart = true;
+        }
+      }
+    }, false);
+    window.addEventListener('keyup', (e: KeyboardEvent) => {
+      window.KeyDown[e.key] = false;
+    }, false);
   }
 
   function configureScenes() {
+    _manager.registerScene('gameover', (_: number) => {
+      const textWidth = CANVAS_WIDTH / 2;
+      const textHeight = CANVAS_HEIGHT / 1.85;
+
+      const x: number = (CANVAS_WIDTH - textWidth) / 2;
+      let y: number = CANVAS_HEIGHT - (_manager.frame * 2);
+      if (y <= textHeight) {
+        y = textHeight;
+      }
+
+      _ctx.font = 'bold 64px monospace';
+      _util.drawText('GAME OVER', x, y, '#6ea2bd', textWidth);
+
+      if (restart) {
+        restart = false;
+        _user.setComming(
+          CANVAS_WIDTH / 2,
+          CANVAS_HEIGHT + 50,
+          CANVAS_WIDTH / 2,
+          CANVAS_HEIGHT - 100,
+        );
+        _manager.switchScene('start');
+      }
+    });
     _manager.registerScene('start', (_: number) => {
       if (_user.isAllSet()) {
         _manager.switchScene('stroll');
@@ -236,6 +276,8 @@ declare global {
         }
       } else if (_manager.frame >= 128) {
         _manager.switchScene('stroll');
+      } else if (_user.getLife() <= 0) {
+        _manager.switchScene('gameover');
       }
     });
     _manager.switchScene('start');
